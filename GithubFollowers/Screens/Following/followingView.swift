@@ -9,21 +9,15 @@ import SwiftUI
 struct followingView: View {
     @State private var model = FollowingViewModel()
     @State var username: String
-    @State var showUser = false
-    @State var selectedUser: String? = nil
     
     let layout = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
     
     var body: some View {
-        NavigationView{
             VStack{
                 ScrollView(.vertical){
                     LazyVGrid(columns: layout) {
                         ForEach(model.following, id: \.self) { following in
-                            Button(action: {
-                                selectedUser = following.login
-                                showUser.toggle()
-                            }){
+                            NavigationLink( destination: userDetail(username: following.login )) {
                                 VStack(spacing: 20){
                                     AsyncImage(url: URL(string: following.avatarUrl )) { image in
                                         image
@@ -39,7 +33,6 @@ struct followingView: View {
                                         .lineLimit(1)
                                 }
                             }
-                            
                         }
                     }
                 }
@@ -47,13 +40,6 @@ struct followingView: View {
             .padding()
             .accentColor(.green)
             .redacted(reason: model.isLoading ? .placeholder : [])
-            .onChange(of: selectedUser) {
-                showUser = true
-            }
-            .sheet(isPresented: $showUser) {
-                userDetail(username: selectedUser ?? "")
-                    .accentColor(.green)
-            }
             .overlay{
                 if model.following.isEmpty{
                     ContentUnavailableView(label: {
@@ -65,7 +51,6 @@ struct followingView: View {
             .task {
                  model.fetchFollowing(username: username)
             }
-        }
     }
 }
 

@@ -9,7 +9,7 @@ import SwiftUI
 struct searchView: View {
     @State var searchUser = ""
     var body: some View {
-        NavigationView{
+        NavigationStack{
             VStack {
                 Image("gh-logo")
                     .resizable()

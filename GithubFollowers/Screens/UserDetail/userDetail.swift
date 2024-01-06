@@ -10,7 +10,7 @@ struct userDetail: View {
     @State private var model = UserViewModel()
     @State var username: String
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack{
                 Spacer()
                 HStack{
@@ -93,7 +93,6 @@ struct userDetail: View {
                 Spacer()
                 
             }
-            .navigationBarBackButtonHidden(true)
             .accentColor(.green)
             .redacted(reason: model.isLoading ? .placeholder : [])
             .padding()
@@ -106,5 +105,5 @@ struct userDetail: View {
 }
 
 #Preview {
-    userDetail(username: "notwarnite")
+    userDetail(username: "SAllen0400")
 }
